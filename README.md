@@ -36,11 +36,12 @@ example_grid:
     epochs: 100
     "-b": 128  # batch size as argument to the script!
     # group_x parameters allow you to group parameters together (e.g., to control total number of tokens)
-    group_1: 
+    group_1:
       groups:
-        #  bsz 128 will always be matched with steps 1000, and bsz 256 will always be matched with steps 500
-        bsz: [128, 256]
-        steps: [1000, 500]
+        - bsz: 128
+          steps: 1000
+        - bsz: 256
+          steps: 500
   slurm:
     "--gres": "gpu:1"
     "-n": 1

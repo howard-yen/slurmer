@@ -18,7 +18,7 @@ class SpecialParameter:
 
     range: List[int] | None = None
 
-    groups: Dict[str, List[str | int | float]] | None = None
+    groups: List[Dict[str, ParameterValue]] | None = None
 
     def __iter__(self) -> Iterable[str | int | float]:
         if self.glob:
@@ -35,12 +35,12 @@ class SpecialParameter:
             yield from list(range(*self.range))
         
         elif self.groups:
-            # each value is in the form of {group_name: value} for all values in the list
-            yield from [dict(zip(self.groups.keys(), v)) for v in zip(*self.groups.values())]
+            # each item in the group list is a dictionary of key-value pairs
+            yield from self.groups
 
 
 ParameterDict = Dict[str, ParameterValue]
-Parameters = Dict[str, ParameterValue | SpecialParameter | List[ParameterValue]]
+Parameters = Dict[str, ParameterValue | SpecialParameter | List[ParameterValue] | List[ParameterDict]]
 
 
 def split_variables_and_arguments(param_dict: ParameterDict) -> Tuple[ParameterDict, ParameterDict]:
